@@ -1,0 +1,14 @@
+# Vscode
+\.vscode
+
+# Virtual environment
+\venv
+
+# Environment vars
+.env.local
+
+# Log files
+\app.log
+
+# Donwloads (driver files)
+\downloaded_files

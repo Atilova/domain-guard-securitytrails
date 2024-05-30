@@ -1,0 +1,31 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+redis = "*"
+python-dotenv = "*"
+requests = "*"
+flask = "*"
+fake-useragent = "*"
+beautifulsoup4 = "*"
+seleniumbase = "*"
+celery = {extras = ["redis"], version = "*"}
+flask-injector = "*"
+flask-restx = "*"
+waitress = "*"
+pika = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.12"
+python_full_version = "3.12.3"
+
+[scripts]
+api = "python api.py"
+celery = "celery -A worker.app worker -l info --pool=solo -Q webdriver"
+prod = "waitress-serve --port 3000 --call \"api:create_app_factory\""
+gateway = "python gateway.py"
+diff = "git diff --cached --shortstat"

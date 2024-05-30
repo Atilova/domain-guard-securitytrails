@@ -1,0 +1,2 @@
+class StorageCRUDError(Exception):
+    """StorageCRUDError"""
