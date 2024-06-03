@@ -27,7 +27,7 @@ class GatewayConsumer:
         self.__parameters = parameters
         self.__connection: BlockingConnection
         self.__channel: BlockingChannel
-        self.__consumers: set[ConsumerFunction]  = set()
+        self.__consumers: set[ConsumerFunction] = set()
         self.__running = False
 
     def require_channel(self, function):

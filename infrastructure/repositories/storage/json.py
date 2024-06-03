@@ -22,7 +22,7 @@ class IStorageService(Protocol):
     def new_json_record(self, *, key: JsonStorageRecordKey, data: JsonStorageRecordData) -> JsonStorageRecord:
         pass
 
-
+# Todo: try using generics
 class JsonStorageRepository:
     """JsonStorageRepository"""
 

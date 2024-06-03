@@ -50,10 +50,13 @@ class SecurityTrailsConsumer:
         request_id = data.get('_id')
 
         if request_id is None or not isinstance(request_id, str):
-            return logger.warning(f'Request missing request id (_id) of type string for: {event}')
+            return logger.warning(f'Request missing request id (_id) of type string for: {event}.')
 
         match event:
             case ConsumerEvents.FABRICATE_ACCOUNT:
+                if self.__notifier.retrieve_by_id(request_id) is not None:
+                    return logger.warning(f'Requested with _id ({request_id}) already exists.')
+
                 with self.__ioc.fabricate_api_key() as fabricate_api_key:
                     output_dto = fabricate_api_key(NewApiKeyInputDTO(
                         notifier=self.__notifier
@@ -71,4 +74,4 @@ class SecurityTrailsConsumer:
                     return self.__notifier.notify(request_id, output_dto)
 
             case _:
-                logger.warning(f'Received unknown event: {event}')
+                logger.warning(f'Received unknown event: {event}.')

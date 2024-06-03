@@ -4,10 +4,12 @@ from infrastructure.config import GatewayConfig
 
 
 def setup_consumer_from_config(*, channel: BlockingChannel, config: GatewayConfig):
-    """setup"""
+    """setup_consumer_from_config"""
 
     exchange_name = config.consumer_exchange
     queue_name = config.consumer_queue
+
+    channel.basic_qos(prefetch_count=7)
 
     channel.exchange_declare(
         exchange=exchange_name,

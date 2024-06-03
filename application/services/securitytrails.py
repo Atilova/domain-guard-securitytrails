@@ -147,9 +147,9 @@ def _obtain(*,
                     rsleep(2, 3)
                 case ObtainState.SUBMIT_FORM:
                     try:
-                        temp.failed_times = 0
                         temp.webdriver.submit_form()
                         temp.state = ObtainState.GET_CONFIRMATION
+                        temp.failed_times = 0
                         logger.debug('Account created successfully.')
                     except WebDriverServerError:
                         temp.failed_times += 1.5

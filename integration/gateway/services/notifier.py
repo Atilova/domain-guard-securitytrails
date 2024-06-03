@@ -1,3 +1,6 @@
+from typing import Optional
+
+from integration.gateway.consumers.events import ProducerEvents
 from integration.gateway.adapters.IGatewayProducer import IGatewayProducer
 
 from application.adapters.IJsonStorageRepository import IJsonStorageRepository
@@ -38,21 +41,22 @@ class GatewayApiKeyNotifier:
 
     def notify(self, _id: str, dto: ApiKeyOutputDTO):
         self.__producer.produce_json({
-            '_id': _id,
-            'data': dto.to_json()
+            'event': ProducerEvents.ACCOUNT_RESPONSE,
+            'data': dto.to_dict(),
+            '_id': _id
         })
 
     def register(self, _id: str, dto: ApiKeyOutputDTO):
         self.__request_storage.insert(JsonStorageRecordKey(_id), JsonStorageRecordData(dto.id), 1800)
         self.__response_storage.insert(JsonStorageRecordKey(dto.id), JsonStorageRecordData(_id), 1800)
 
-    def retrieve_by_id(self, _id: str):
+    def retrieve_by_id(self, _id: str) -> Optional[str]:
         record = self.__request_storage.retrieve(JsonStorageRecordKey(_id))
         if record is None: return
 
         return record.data.raw()
 
-    def __retrieve_by_dto(self, dto: ApiKeyOutputDTO):
+    def __retrieve_by_dto(self, dto: ApiKeyOutputDTO) -> Optional[str]:
         record = self.__response_storage.retrieve(JsonStorageRecordKey(dto.id))
         if record is None: return
 
